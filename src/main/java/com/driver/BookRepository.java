@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 public class BookRepository {
 
     public BookRepository(){
-
+        
     }
     private int id=1;
     HashMap<Integer,Book> db=new HashMap<>();
@@ -33,7 +33,7 @@ public class BookRepository {
 
     public void deleteBookById(int id){
         if(db.containsKey(id))
-            db.remove(id);
+        db.remove(id);
         return;
     }
 
