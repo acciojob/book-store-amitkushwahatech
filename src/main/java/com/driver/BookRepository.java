@@ -6,61 +6,59 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BookRepository {
 
-    List<Book> bookList;
-
-    static int id = 0;
     public BookRepository(){
-        bookList = new ArrayList();
+
     }
+    private int id=1;
+    HashMap<Integer,Book> db=new HashMap<>();
 
     public Book save(Book book){
-        id++;
         book.setId(id);
-        bookList.add(book);
+        db.put(id,book);
+        id++;
         return book;
     }
 
     public Book findBookById(int id){
-        for (Book b:bookList)
-        {
-            if(b.getId() == id)
-                return b;
-        }
-        return null;
+        return db.get(id);
     }
 
     public List<Book> findAll(){
-        return bookList;
+        List<Book> books=new ArrayList<>();
+        for(Integer i: db.keySet()){
+            books.add(db.get(i));
+        }
+        return books;
     }
 
     public void deleteBookById(int id){
-        for (Book b: bookList) {
-            if(b.getId() == id) {
-                bookList.remove(b);
-                break;
-            }
-        }
+        if(db.containsKey(id))
+            db.remove(id);
+        return;
     }
 
     public void deleteAll(){
-        bookList.clear();
+        db.clear();
+        return;
     }
 
     public List<Book> findBooksByAuthor(String author){
-        List<Book> authorList = new ArrayList<>();
-        for (Book b: bookList) {
-            if(b.getAuthor().equals(author))
-                authorList.add(b);
+        List<Book> books=new ArrayList<>();
+        for(Integer i: db.keySet()){
+            if(db.get(i).getAuthor().equals(author)){
+                books.add(db.get(i));
+            }
         }
-        return authorList;
+        return books;
     }
 
     public List<Book> findBooksByGenre(String genre){
-        List<Book> genreList = new ArrayList<>();
-        for (Book b: bookList) {
-            if(b.getGenre().equals(genre))
-                genreList.add(b);
+        List<Book> books=new ArrayList<>();
+        for(Integer i: db.keySet()){
+            if(db.get(i).getGenre().equals(genre)){
+                books.add(db.get(i));
+            }
         }
-        return genreList;
+        return books;
     }
 }
